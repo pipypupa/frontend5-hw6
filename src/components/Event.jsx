@@ -1,30 +1,41 @@
-import { Item, Subtitle, Parag, Wrapper, Row } from "./Event.styled"
-import { BsGeoAltFill } from "react-icons/bs";
-import { IoPerson } from "react-icons/io5";
-import { MdNewspaper } from "react-icons/md";
-import { TbClockHour8 } from "react-icons/tb";
 import PropTypes from "prop-types";
+import { FaMapMarkerAlt, FaUser, FaClock } from "react-icons/fa";
+import { Card } from "./Event.styled";
 
-export const Event = ({ name, location, speaker, type, start, end }) => {
-    return (
-        <Item>
-            <Subtitle>{name}</Subtitle>
-            <Wrapper>
-                <Row><BsGeoAltFill display="inline" size="20px"/><Parag as="p">{location}</Parag></Row>
-                <Row><IoPerson size="20px"/><Parag as="p">{speaker}</Parag></Row>
-                <Row><MdNewspaper size="20px"/><Parag as="p">{type}</Parag></Row>
-                <Row><TbClockHour8 size="20px"/><Parag as="p">Start:{start}</Parag></Row>
-                <Parag as="p">End: {end}</Parag>
-            </Wrapper>
-        </Item>
-    )
+function EventCard({ name, location, speaker, start, end }) {
+  const startDate = new Date(start).toLocaleString("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const duration = (new Date(end) - new Date(start)) / (1000 * 60 * 60);
+
+  return (
+    <Card>
+      <h3>{name}</h3>
+      <p>
+        <FaMapMarkerAlt /> {location}
+      </p>
+      <p>
+        <FaUser /> {speaker}
+      </p>
+      <p>
+        <FaClock /> {startDate}
+      </p>
+      <p>⏳ {duration} hours</p>
+    </Card>
+  );
 }
 
-Event.propTypes = {
-    name: PropTypes.string.isRequired,
-    location: PropTypes.string.isRequired,
-    speaker: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    start: PropTypes.string.isRequired,
-    end: PropTypes.string.isRequired
-}
+EventCard.propTypes = {
+  name: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired,
+  speaker: PropTypes.string.isRequired,
+  start: PropTypes.string.isRequired,
+  end: PropTypes.string.isRequired,
+};
+
+export default EventCard;

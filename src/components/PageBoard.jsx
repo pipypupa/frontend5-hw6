@@ -1,42 +1,30 @@
-import { Event } from "./Event";
-import { Title } from "./PageBoard.styled";
-import { List } from "./Event.styled";
-import PropTypes, { } from "prop-types";
-export const PageBoard = ({ title, events }) => {
+import PropTypes from "prop-types";
+import EventCard from "./Event";
+import { Board, Title, Grid } from "./PageBoard.styled";
+
+function PageBoard({ events }) {
   return (
-    <section>
-      {title && <Title>{title}</Title>}
-      <List>
-        {events.map((event, index) => {
-          return (
-            <Event
-              key={index}
-              name={event.name}
-              location={event.location}
-              speaker={event.speaker}
-              type={event.type}
-              start={event.time.start}
-              end={event.time.end}
-            />
-          );
-        })}
-      </List>
-    </section>
+    <Board>
+      <Title>24th Core Worlds Coalition Conference</Title>
+
+      <Grid>
+        {events.map((evt, index) => (
+          <EventCard
+            key={index}
+            name={evt.name}
+            location={evt.location}
+            speaker={evt.speaker}
+            start={evt.time.start}
+            end={evt.time.end}
+          />
+        ))}
+      </Grid>
+    </Board>
   );
-};
+}
 
 PageBoard.propTypes = {
-  title: PropTypes.string.isRequired,
-  events: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      location: PropTypes.string.isRequired,
-      speaker: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      time: PropTypes.shape({
-        start: PropTypes.string.isRequired,
-        end: PropTypes.string.isRequired,
-      }),
-    })
-  ).isRequired,
+  events: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
+
+export default PageBoard;
